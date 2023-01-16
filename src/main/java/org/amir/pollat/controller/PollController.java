@@ -6,6 +6,7 @@ import org.amir.pollat.repository.PollRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -77,6 +78,7 @@ public class PollController {
 
 
     // Delete a Poll
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/polls/{pollId}" , method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
 //        The method deleteById will throw an EmptyResultDataAccessException if the supplied id does not exist, whereas the method delete will silently return if the supplied entity hasn't been persisted yet, or for whatever reason it cannot be found by the EntityManager.
