@@ -3,6 +3,8 @@ package org.amir.pollat.controller;
 import org.amir.pollat.entity.Poll;
 import org.amir.pollat.exception.ResourceNotFoundException;
 import org.amir.pollat.repository.PollRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.awt.print.Pageable;
 import java.net.URI;
 import java.util.Optional;
 
@@ -32,9 +35,9 @@ public class PollController {
 
     // Check if the poll exists
     @GetMapping("/polls")
-    public ResponseEntity<Iterable<Poll>> getAllPolls() {
-        Iterable<Poll> all = pollRepository.findAll();
-        return new ResponseEntity<>(pollRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<Page<Poll>> getAllPolls(Pageable pageable) {
+        Page<Poll> allPolls = (Page<Poll>) pollRepository.findAll((Sort) pageable);
+        return new ResponseEntity<>(allPolls, HttpStatus.OK);
     }
 
     // Creating Poll Resource
