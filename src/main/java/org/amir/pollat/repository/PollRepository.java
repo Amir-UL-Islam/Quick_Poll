@@ -7,5 +7,4 @@ import java.util.List;
 
 
 public interface PollRepository extends PagingAndSortingRepository<Poll, Long> {
-    List<Poll>
 }
