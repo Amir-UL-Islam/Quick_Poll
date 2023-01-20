@@ -81,7 +81,7 @@ public class PollController {
 
 
     // Delete a Poll
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/polls/{pollId}" , method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
 //        The method deleteById will throw an EmptyResultDataAccessException if the supplied id does not exist, whereas the method delete will silently return if the supplied entity hasn't been persisted yet, or for whatever reason it cannot be found by the EntityManager.
