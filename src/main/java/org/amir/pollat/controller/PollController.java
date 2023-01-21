@@ -21,7 +21,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-//@Api(value = "polls", description = "Poll API")
+@Api(value = "polls", description = "Poll API")
 @RequestMapping("/api")
 public class PollController {
     @Inject
@@ -45,7 +45,7 @@ public class PollController {
     }
 
     // Creating Poll Resource
-//    @ApiOperation(value = "Creates a new Poll", notes="The newly created poll Id will be sent in the location response header", response = Void.class)
+    @ApiOperation(value = "Creates a new Poll", notes="The newly created poll Id will be sent in the location response header", response = Void.class)
     @PostMapping("/polls")
     public ResponseEntity<?> createPoll(@Valid @RequestBody  Poll poll) {
 //        Poll poll = new Poll();
