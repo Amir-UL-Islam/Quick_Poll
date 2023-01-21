@@ -1,5 +1,7 @@
 package org.amir.pollat.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.amir.pollat.entity.Poll;
 import org.amir.pollat.exception.ResourceNotFoundException;
 import org.amir.pollat.repository.PollRepository;
@@ -8,7 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -19,6 +21,8 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
+//@Api(value = "polls", description = "Poll API")
+@RequestMapping("/api")
 public class PollController {
     @Inject
     private PollRepository pollRepository;
@@ -41,10 +45,11 @@ public class PollController {
     }
 
     // Creating Poll Resource
+//    @ApiOperation(value = "Creates a new Poll", notes="The newly created poll Id will be sent in the location response header", response = Void.class)
     @PostMapping("/polls")
     public ResponseEntity<?> createPoll(@Valid @RequestBody  Poll poll) {
 //        Poll poll = new Poll();
-// Don't Need this line as The @RequestBody annotation maps the HttpRequest body to a transfer or domain object, enabling automatic deserialization of the inbound HttpRequest body onto a Java object.
+//        Don't Need this line as The @RequestBody annotation maps the HttpRequest body to a transfer or domain object, enabling automatic deserialization of the inbound HttpRequest body onto a Java object.
 //        poll.setQuestion("What is your favorite color?");
 //        pollRepository.save(poll);
         pollRepository.save(poll);
@@ -64,12 +69,19 @@ public class PollController {
 
 
     // Check if the poll exists
+//    @ApiOperation(value = "Retrieves a Poll associated with the pollId", response = Poll.class)
     @GetMapping("/polls/{pollId}")
     public ResponseEntity<?> getPoll(@PathVariable Long pollId) throws ResourceNotFoundException { //placeholder {pollId} along with the @PathVarible annotation allows Spring to examine the request URI path and extract the pollId parameter value.
         return new ResponseEntity<>(verifyPoll(pollId), HttpStatus.OK);
     }
 
     // Update a Poll
+//    @ApiOperation(value = "Retrieves all the polls", response = Poll.class, responseContainer="List")
+//    @GetMapping("/polls")
+//    public ResponseEntity<?> getAllPolls() {
+//        return new ResponseEntity<>(pollRepository.findAll(), HttpStatus.OK);
+//    }
+//    @ApiOperation(value = "Updating a Poll associated with the pollId", response = Poll.class)
     @PutMapping("/polls/{pollId}")
     public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
 
@@ -82,6 +94,7 @@ public class PollController {
 
     // Delete a Poll
 //    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @ApiOperation(value = "Deleting a Poll associated with the pollId", response = Poll.class)
     @RequestMapping(value = "/polls/{pollId}" , method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
 //        The method deleteById will throw an EmptyResultDataAccessException if the supplied id does not exist, whereas the method delete will silently return if the supplied entity hasn't been persisted yet, or for whatever reason it cannot be found by the EntityManager.

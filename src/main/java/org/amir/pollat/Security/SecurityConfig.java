@@ -22,44 +22,46 @@
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 //
 ////Book Version
-////public class SecurityConfig extends WebSecurityConfigurerAdapter {
-////    protected String[] PERMIT_ALL= {
-////            "/polls/**",
-////            "/users/**",
-////            "/swagger-ui/**",
-////            "/swagger-resources/**",
-////            "/api-docs/**",
-////            "/v2/api-docs/**",
-////            "/v3/api-docs/**",
-////            "/webjars/**"
-////    };
-////    @Inject
-////    private UserDetailsService userDetailsService;
-////    @Override
-////    protected void  configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
-////        authenticationManagerBuilder
-////                .userDetailsService(userDetailsService)
-////                .passwordEncoder(new BCryptPasswordEncoder());
-////    }
-////
-////    @Override
-////    protected void configure(HttpSecurity http) throws Exception{
-////        http
-////                .sessionManagement()
-////                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-////                .and()
-////                .authorizeRequests()
-////                .antMatchers(PERMIT_ALL).permitAll()
-////                .anyRequest()
-////                .authenticated()
-////                .and()
-////                .httpBasic()
-////                .realmName("Poll At")
-////                .and()
-////                .csrf().disable();
-////    }
-////}
+//public class SecurityConfig extends WebSecurityConfigurerAdapter {
+//    protected String[] PERMIT_ALL= {
+//            "/swagger-ui/**",
+//            "/swagger-resources/**",
+//            "/api-docs/**",
+//            "/v2/**",
+//            "/v3/**",
+//            "/webjars/**"
+//    };
+//    @Inject
+//    private UserDetailsService userDetailsService;
+//    @Override
+//    protected void  configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
+//        authenticationManagerBuilder
+//                .userDetailsService(userDetailsService)
+//                .passwordEncoder(new BCryptPasswordEncoder());
+//    }
 //
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception{
+//        http
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers(PERMIT_ALL).permitAll()
+//                .antMatchers("/polls/**").authenticated()
+//                .and()
+//                .httpBasic()
+//                .realmName("Poll At")
+//                .and()
+//                .csrf().disable();
+//    }
+//}
+
+
+
+
+
+
 //public class SecurityConfig{
 //        protected String[] PERMIT_ALL= {
 //            "/polls/**",
