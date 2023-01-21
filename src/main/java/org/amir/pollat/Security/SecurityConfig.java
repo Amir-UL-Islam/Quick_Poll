@@ -137,6 +137,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        return new BCryptPasswordEncoder();
         return NoOpPasswordEncoder.getInstance();
     }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+//        super.configure(http);
+        http.authorizeRequests()
+                .antMatchers("/**")
+                .hasRole("USER")
+
+//                or I can Allow to Any Role to This Endpoint
+//                .hasAnyRole()
+
+                .and()
+                .formLogin();
+    }
 }
 
 
