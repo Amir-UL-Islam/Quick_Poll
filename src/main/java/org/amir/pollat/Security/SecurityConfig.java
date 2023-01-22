@@ -21,12 +21,15 @@ import javax.inject.Inject;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected String[] PERMIT_ALL= {
             "/polls/**",
-            "/users/**",
-            "/swagger-ui/**",
-            "/swagger-resources/**",
-            "/v2/api-docs/**",
-            "/api-docs/**",
-            "/webjars/**",
+//            "/votes/**",
+//            "/options/**",
+//            "/users/**",
+//            "/swagger-ui/**",
+//            "/swagger-resources/**",
+//            "/v2/api-docs/**",
+//            "/v3/api-docs/**",
+//            "/api-docs/**",
+//            "/webjars/**"
     };
     @Inject
     private UserDetailsService userDetailsService;
