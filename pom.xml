@@ -24,13 +24,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
@@ -74,6 +67,10 @@
             <version>5.7.5</version>
         </dependency>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bf7b760c74e4a3bf4363573bffc51ff5aaa3b24
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -82,13 +79,19 @@
 
 
 
+<<<<<<< HEAD
         <!--        Swagger-->
+=======
+
+
+>>>>>>> 8bf7b760c74e4a3bf4363573bffc51ff5aaa3b24
          <dependency>
              <groupId>io.springfox</groupId>
              <artifactId>springfox-boot-starter</artifactId>
              <version>3.0.0</version>
          </dependency>
 
+<<<<<<< HEAD
         <!--        <dependency>-->
         <!--            <groupId>io.springfox</groupId>-->
         <!--            <artifactId>springfox-swagger2</artifactId>-->
@@ -112,6 +115,8 @@
 <!--            <version>3.0.0</version>-->
 <!--        </dependency>-->
 
+=======
+>>>>>>> 8bf7b760c74e4a3bf4363573bffc51ff5aaa3b24
     </dependencies>
 
     <build>
