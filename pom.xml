@@ -60,63 +60,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>5.7.5</version>
-        </dependency>
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 8bf7b760c74e4a3bf4363573bffc51ff5aaa3b24
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-
-
-
-<<<<<<< HEAD
         <!--        Swagger-->
-=======
-
-
->>>>>>> 8bf7b760c74e4a3bf4363573bffc51ff5aaa3b24
          <dependency>
              <groupId>io.springfox</groupId>
              <artifactId>springfox-boot-starter</artifactId>
              <version>3.0.0</version>
          </dependency>
 
-<<<<<<< HEAD
-        <!--        <dependency>-->
-        <!--            <groupId>io.springfox</groupId>-->
-        <!--            <artifactId>springfox-swagger2</artifactId>-->
-        <!--            <version>2.9.2</version>-->
-        <!--        </dependency>-->
-
-
-
-
-<!--        <dependency>-->
-<!--            <groupId>io.swagger</groupId>-->
-<!--            <artifactId>swagger-jaxrs</artifactId>-->
-<!--            <version>1.6.8</version>-->
-<!--        </dependency>-->
-
-
-
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger-ui</artifactId>-->
-<!--            <version>3.0.0</version>-->
-<!--        </dependency>-->
-
-=======
->>>>>>> 8bf7b760c74e4a3bf4363573bffc51ff5aaa3b24
     </dependencies>
 
     <build>
