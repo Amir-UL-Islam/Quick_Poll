@@ -1,7 +1,5 @@
 package org.amir.pollat.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.amir.pollat.entity.Poll;
 import org.amir.pollat.exception.ResourceNotFoundException;
 import org.amir.pollat.repository.PollRepository;
@@ -10,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,8 +18,8 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-@Api(value = "polls", description = "Poll API")
-@RequestMapping("/api")
+//@Api(value = "polls", description = "Poll API")
+@RequestMapping("/api/")
 public class PollController {
     @Inject
     private PollRepository pollRepository;
@@ -45,7 +42,7 @@ public class PollController {
     }
 
     // Creating Poll Resource
-    @ApiOperation(value = "Creates a new Poll", notes="The newly created poll Id will be sent in the location response header", response = Void.class)
+//    @ApiOperation(value = "Creates a new Poll", notes="The newly created poll Id will be sent in the location response header", response = Void.class)
     @PostMapping("/polls")
     public ResponseEntity<?> createPoll(@Valid @RequestBody  Poll poll) {
 //        Poll poll = new Poll();
@@ -76,11 +73,6 @@ public class PollController {
     }
 
     // Update a Poll
-//    @ApiOperation(value = "Retrieves all the polls", response = Poll.class, responseContainer="List")
-//    @GetMapping("/polls")
-//    public ResponseEntity<?> getAllPolls() {
-//        return new ResponseEntity<>(pollRepository.findAll(), HttpStatus.OK);
-//    }
 //    @ApiOperation(value = "Updating a Poll associated with the pollId", response = Poll.class)
     @PutMapping("/polls/{pollId}")
     public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
