@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,7 @@ public class UserController {
     private UsersRepository usersRepository;
 
     @Inject
-    private PasswordEncoder passwordEncoder;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-
-    }
+    private BCryptPasswordEncoder passwordEncoder;
 
     // For Everyone (new user)
     // Saving the user to DB
@@ -81,9 +76,9 @@ public class UserController {
         // Checking if the loggedIn user has the role to assign the role
         if(activeRolls.contains(userRoll)){
 
-            String newRoll = user.getRoll().toString().concat("," + userRoll);
+//            String newRoll = user.getRoll().toString().concat("," + userRoll);
 //            String newRoll = user.getRoll().concat("," + userRoll);
-            user.setRoll(Rolls.valueOf(newRoll));
+            user.setRoll(Rolls.MODERATOR);
         }
         usersRepository.save(user);
         return "Access Granted";
@@ -98,7 +93,7 @@ public class UserController {
 
     @GetMapping("/randomUser")
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<?> randomUser(){
-        return new ResponseEntity<>("Random User", HttpStatus.CONTINUE);
+    public String randomUser(){
+        return "You are a user";
     }
 }
