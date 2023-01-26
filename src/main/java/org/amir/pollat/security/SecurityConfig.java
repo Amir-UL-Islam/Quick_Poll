@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -24,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Inject
     private Quick_PollUserDetailsService quick_pollUserDetailsService;
     protected String[] PERMIT_ALL= {
-            "/api/users/newUser/",
+            "/api/users/newUser/**",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/api-docs/**",
@@ -57,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // As I have already Implemented @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MODERATOR')")
 //                .antMatchers("/api/polls/**").hasRole("ADMIN")
 //                .antMatchers("/api/polls/{pollId}/votes/").hasRole("USER")
-                .anyRequest().authenticated()
+                .antMatchers("/api/users/access/**").authenticated()
                 .and()
                 .httpBasic();
     }

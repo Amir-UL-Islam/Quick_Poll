@@ -20,6 +20,8 @@ public class RestExceptionHandler {
 //    @ExceptionHandler(ResourceNotFoundException.class)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleResourceNotFoundException(MethodArgumentNotValidException ex, HttpServletRequest request, HttpServletResponse response) {
+
+        // Populate errorDetails instance
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setTimestamp(System.currentTimeMillis());
         errorDetails.setStatus(HttpStatus.BAD_REQUEST.value());

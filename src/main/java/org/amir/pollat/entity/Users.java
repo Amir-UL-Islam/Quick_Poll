@@ -4,6 +4,8 @@ import jdk.jfr.BooleanFlag;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,9 +30,9 @@ public class Users {
     @Column(name = "PASSWORD")
     private String password;
 
-    @NotEmpty
     @Column(name = "ROLL")
-    private String roll;
+    @Enumerated(EnumType.STRING)
+    private Rolls roll;
 
     @BooleanFlag
     private boolean isActive;

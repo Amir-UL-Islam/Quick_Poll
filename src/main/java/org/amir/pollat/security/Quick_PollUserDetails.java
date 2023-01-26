@@ -1,11 +1,9 @@
 package org.amir.pollat.security;
 
 import org.amir.pollat.entity.Users;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,7 +18,7 @@ public class Quick_PollUserDetails implements UserDetails{
     public Quick_PollUserDetails(Users users){
         this.username = users.getUsername();
         this.password = users.getPassword();
-        this.authorities = Arrays.stream(users.getRoll().split(","))
+        this.authorities = Arrays.stream(users.getRoll().toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
         this.isActive = users.isActive();

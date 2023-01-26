@@ -2,6 +2,7 @@ package org.amir.pollat.security;
 
 import org.amir.pollat.entity.Users;
 import org.amir.pollat.repository.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +14,7 @@ import java.util.Optional;
 @Service
 // Part of The Authentication Process
 public class Quick_PollUserDetailsService implements UserDetailsService{
-    @Inject
+    @Autowired
     private UsersRepository usersRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -24,9 +25,11 @@ public class Quick_PollUserDetailsService implements UserDetailsService{
         // So, We have to Implement UserDetails Interface
         // Which is Implemented in Quick_PollUserDetails.java
         Optional<Users> user = usersRepository.findByUsername(username);
-        return user.map(Quick_PollUserDetails::new)
+
+        user.orElseThrow(()-> new UsernameNotFoundException("User Not Found"));
+        return user.map(Quick_PollUserDetails::new).get();
 //                .orElse(new User("amir", "amir", new ArrayList<>())
-                .orElseThrow(()-> new UsernameNotFoundException("User Not Found"));
+//                .orElseThrow(()-> new UsernameNotFoundException("User Not Found"));
 
     }
 }
