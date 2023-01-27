@@ -8,14 +8,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "org.amir.pollat.repository")
-// For disabling the security config
-//@ComponentScan(
-//        basePackages = { "org.amir" },
-//        excludeFilters = {
-//                @ComponentScan.Filter(
-//                        type = FilterType.ASSIGNABLE_TYPE,
-//                        value = { SecurityConfig.class })
-//        })
 public class PollAtApplication {
 
     public static void main(String[] args) {
