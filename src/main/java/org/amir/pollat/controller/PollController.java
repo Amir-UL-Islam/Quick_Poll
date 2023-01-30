@@ -96,6 +96,6 @@ public class PollController {
 
 //        pollRepository.deleteById(pollId);
         pollRepository.delete(verifyPoll(pollId));
-        return new ResponseEntity<>(HttpStatus.GONE);
+        return new ResponseEntity<>(verifyPoll(pollId),HttpStatus.GONE);
     }
 }
