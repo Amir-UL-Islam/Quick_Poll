@@ -2,10 +2,7 @@ package org.amir.pollat.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -15,7 +12,8 @@ import javax.persistence.Id;
 @Setter
 public class Option {
     @Id
-    @GeneratedValue
+//    Without Strategy.IDENTITY, The transaction won't Work
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "OPTION_ID")
     private Long id;
 

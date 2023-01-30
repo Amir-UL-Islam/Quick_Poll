@@ -1,22 +1,23 @@
 package org.amir.pollat.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.inject.Inject;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "USER_ROLES")
 public class Roles {
     @Id
-    @GeneratedValue
+//    Without Strategy.IDENTITY, The transaction won't Work
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ROLE_ID")
     private Long id;
+    @Column(name = "ROLE_NAME")
     private String name;
 }

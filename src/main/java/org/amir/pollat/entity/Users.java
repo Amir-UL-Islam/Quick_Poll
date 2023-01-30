@@ -9,7 +9,8 @@ import org.amir.pollat.entity.Roles;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -17,27 +18,28 @@ import java.util.Collection;
 @Table(name = "USERS")
 public class Users {
     @Id
-    @GeneratedValue
+//    Without Strategy.IDENTITY, The transaction won't Work
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "USER_ID")
     private Long id;
 
     @Column(name = "USERNAME")
-    @NotEmpty
+//    @NotEmpty
     private String username;
 
-    @NotEmpty
+//    @NotEmpty
     @Column(name = "LAST_NAME")
     private String lastname;
-    @NotEmpty
+//    @NotEmpty
     @Column(name = "PASSWORD")
     private String password;
 
     @Column(name = "ROLE")
-    @NotEmpty
+//    @NotEmpty
     @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "USER_ROLES",
+//            joinColumns = @JoinColumn(name = "USER_ID"))
     private Collection<Roles> roles = new ArrayList<>();
-
-    @BooleanFlag
-    private boolean isActive;
-
 }

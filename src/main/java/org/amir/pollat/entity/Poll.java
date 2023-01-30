@@ -14,7 +14,8 @@ import java.util.Set;
 @Entity
 public class Poll {
     @Id
-    @GeneratedValue
+//    Without Strategy.IDENTITY, The transaction won't Work
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POLL_ID")
     private Long id;
 

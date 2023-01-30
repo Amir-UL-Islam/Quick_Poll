@@ -88,7 +88,7 @@ public class PollController {
 
 
     // Delete a Poll
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @ApiOperation(value = "Deleting a Poll associated with the pollId", response = Poll.class)
     @RequestMapping(value = "/polls/{pollId}" , method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
