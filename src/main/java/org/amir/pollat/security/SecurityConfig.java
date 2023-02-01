@@ -1,8 +1,10 @@
 package org.amir.pollat.security;
 
 import lombok.RequiredArgsConstructor;
+import org.amir.pollat.jwt_filters.CustomFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserDetailsService userDetailsService;
     protected String[] PERMIT_ALL= {
-            "/api/users/newUser/**",
+            "/api/users/jwt/save_new_user//**",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/api-docs/**",
@@ -46,24 +48,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
     // AUTHORIZATION STEPS
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CustomFilter customFilter = new CustomFilter(authenticationManagerBean());
+        customFilter.setFilterProcessesUrl("/api/v1/login");
 //        super.configure(http);
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers(PERMIT_ALL).permitAll()
-                .anyRequest().permitAll()
+                .antMatchers(PERMIT_ALL).permitAll()
+                .antMatchers("/api/v1/login/").permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/v1/**").hasAnyAuthority("ROLE_ADMIN")
+
+//                .anyRequest().permitAll()
                 // As I have already Implemented @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MODERATOR')")
 //                .antMatchers("/api/polls/**").hasRole("ADMIN")
 //                .antMatchers("/api/polls/{pollId}/votes/").hasRole("USER")
 //                .antMatchers("/api/users/**").authenticated()
                 .and()
-                .addFilter(null);
+                .authorizeRequests().anyRequest().authenticated()
+                .and()
+                .addFilter(new CustomFilter(authenticationManager()));
+
+    }
+    @Bean
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 }
 

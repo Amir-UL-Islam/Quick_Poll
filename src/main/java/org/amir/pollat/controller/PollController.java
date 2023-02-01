@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @Api(value = "polls", description = "Poll API")
-@RequestMapping("/api/")
+@RequestMapping("/api/v1/")
 public class PollController {
     @Inject
     private PollRepository pollRepository;

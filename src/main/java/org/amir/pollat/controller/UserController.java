@@ -24,13 +24,6 @@ public class UserController {
 
 
     private final UserServices userServices;
-//    @Inject
-//    private BCryptPasswordEncoder passwordEncoder;
-//    @Bean
-//    public BCryptPasswordEncoder getPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
 //     For Everyone (new user)
 //     Saving the user to DB
     @PostMapping("/save_new_user/")

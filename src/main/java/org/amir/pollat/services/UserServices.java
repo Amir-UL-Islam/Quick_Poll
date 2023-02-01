@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.userdetails.User;
@@ -31,6 +32,7 @@ import java.util.Optional;
 public class UserServices implements UserDetailsService {
     private final UsersRepository usersRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = usersRepository.findByUsername(username).get();
@@ -53,6 +55,7 @@ public class UserServices implements UserDetailsService {
     }
     public Users save_user(Users user){
         log.info("Saving user to DB");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
         return user;
     }
