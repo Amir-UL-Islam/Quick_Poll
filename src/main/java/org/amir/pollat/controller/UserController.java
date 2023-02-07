@@ -17,12 +17,6 @@ import java.util.List;
 @RequestMapping("/api/users/jwt/")
 @RequiredArgsConstructor
 public class UserController {
-    public static final String[] DEFAULT_ROLE = new String[]{"USER"};
-    public static final String[] ADMIN_ROLE = new String[]{"ADMIN","USER", "MODERATOR"};
-    private static final String[] MODERATOR_ROLE = new String[]{"MODERATOR", "USER"};
-    private final UsersRepository usersRepository;
-
-
     private final UserServices userServices;
 //     For Everyone (new user)
 //     Saving the user to DB

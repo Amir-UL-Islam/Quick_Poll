@@ -83,12 +83,16 @@ public class CustomFilter  extends UsernamePasswordAuthenticationFilter {
 
 //        Way 02
         HashMap<String, String> tokens = new HashMap<>();
+        HashMap<String, String> tokens_decode = new HashMap<>();
         tokens.put("access_token", access_token);
         tokens.put("access_token_decode", JWT.decode(access_token).getSubject());
-        tokens.put("refresh_token", refresh_token);
-        tokens.put("refresh_token_decode", JWT.decode(refresh_token).getSubject());
+
+        tokens_decode.put("refresh_token", refresh_token);
+        tokens_decode.put("refresh_token_decode", JWT.decode(refresh_token).getSubject());
+
         response.setContentType("application/json");
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+//        new ObjectMapper().writeValue(response.getOutputStream(), tokens_decode);
 
 //        Also we want to put the tokens into the cookies'
 //        response.addHeader("Set-Cookie", "access_token=" + access_token + "; HttpOnly; Path=/; Max-Age=120");
