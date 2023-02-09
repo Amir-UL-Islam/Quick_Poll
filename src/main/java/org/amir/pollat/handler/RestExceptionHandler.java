@@ -49,6 +49,7 @@ public class RestExceptionHandler {
 
         }
 
+
         errorDetails.setTitle("Resource not found");
         errorDetails.setDetail(ex.getMessage());
         errorDetails.setDeveloperMessage(ex.getClass().getName());
