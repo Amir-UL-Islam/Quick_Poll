@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/login/").permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/v1/user/jwt/**").hasAnyAuthority("ROLE_ADMIN")
 
 //                .anyRequest().permitAll()
                 // As I have already Implemented @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MODERATOR')")

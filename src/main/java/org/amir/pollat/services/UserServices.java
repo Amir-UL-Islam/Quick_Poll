@@ -19,10 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.userdetails.User;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 
 @Service
@@ -78,4 +84,7 @@ public class UserServices implements UserDetailsService {
         return usersRepository.findAll();
     }
 
+    public void reFreshToken(HttpServletRequest request, HttpServletResponse response){
+        String authHeader = request.getHeader(AUTHORIZATION);
+    }
 }

@@ -15,10 +15,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/jwt/")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserController {
-    private final UserServices userServices;
-//     For Everyone (new user)
+    private UserServices userServices;
+    private  UsersRepository usersRepository;
+
+    //     For Everyone (new user)
 //     Saving the user to DB
     @PostMapping("/save_new_user/")
     public ResponseEntity<?> Saving_The_New_User(@RequestBody Users user){
@@ -29,8 +32,8 @@ public class UserController {
     }
 
     @GetMapping("/get_all_user/")
-    public ResponseEntity<List<Users>> getAllUser(){
-        return ResponseEntity.ok().body(userServices.get_all_user());
+    public ResponseEntity<?> getAllUser(){
+        return ResponseEntity.ok().body(usersRepository.findAll());
     }
 
     @PostMapping("/save_user_role/")
@@ -43,61 +46,6 @@ public class UserController {
         userServices.add_role_to_user(setRoleToUser.getUsername(), setRoleToUser.getRole());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
-//
-//    private Users getLogInUser(Principal principal){
-//        return usersRepository.findByUsername(principal.getName()).get();
-//    }
-//
-//
-//    //    List of roles of the loggedIn user
-//    private List<String> getRoleOfTheLoggedInUser(Principal principal){
-////        String rolls = getLogInUser(principal).getRoll();
-//        String rolls = getLogInUser(principal).getRoll().toString();
-//        List<String> assignedRolls = Arrays.stream(rolls.split(",")).collect(Collectors.toList());
-//        if (assignedRolls.contains("ADMIN")){
-//            return Arrays.stream(ADMIN_ROLE).collect(Collectors.toList());
-//        }
-//        if (assignedRolls.contains("MODERATOR")){
-//            return Arrays.stream(MODERATOR_ROLE).collect(Collectors.toList());
-//        }
-//        if (assignedRolls.contains("USER")){
-//            return Arrays.stream(DEFAULT_ROLE).collect(Collectors.toList());
-//        }
-//        return null;
-//    }
-//
-//    // Assigning roles to the user
-//    @GetMapping("/access/{userID}/{userRoll}")
-//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MODERATOR')")
-//    public String giveAccessTo(@PathVariable Long userID, @PathVariable String userRoll, Principal principal){
-//        Users user = usersRepository.findById(userID).get();
-//
-//        // Getting the role of the loggedIn user, Who will assign the role
-//        List<String> activeRolls = getRoleOfTheLoggedInUser(principal);
-//
-//        // Checking if the loggedIn user has the role to assign the role
-//        if(activeRolls.contains(userRoll)){
-//
-////            String newRoll = user.getRoll().toString().concat("," + userRoll);
-////            String newRoll = user.getRoll().concat("," + userRoll);
-//            user.setRoll(Rolls.MODERATOR);
-//        }
-//        usersRepository.save(user);
-//        return "Access Granted";
-//    }
-
-
-//    @GetMapping("/all_users/")
-////    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ResponseEntity<List<Users>> loadAllUsers(){
-//        return ResponseEntity.status(HttpStatus.OK).body(usersRepository.findAll());
-//    }
-
-//    @GetMapping("/randomUser")
-//    @PreAuthorize("hasAuthority('USER')")
-//    public String randomUser(){
-//        return "You are a user";
-//    }
 }
 @Getter
 @Setter

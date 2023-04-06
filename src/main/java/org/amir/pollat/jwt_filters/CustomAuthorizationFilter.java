@@ -35,15 +35,18 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
         }else {
             String authHeader = request.getHeader(AUTHORIZATION);
-            if(authHeader != null && authHeader.startsWith("Valid User")){
+            if(authHeader != null && authHeader.startsWith("Valid ")){
                 try {
-                    String token = authHeader.substring("Valid User".length());
+                    String token = authHeader.substring("Valid ".length());
 
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                    System.out.println(algorithm);
 
                     JWTVerifier verifier = JWT.require(algorithm).build();
+                    System.out.println(verifier);
 
                     DecodedJWT decodedJWT = verifier.verify(token);
+                    System.out.println(decodedJWT);
 
                     // Verify the Token of The Valid User
                     String username = decodedJWT.getSubject();
@@ -71,6 +74,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
                     log.error("Error logging in: {}", e.getMessage());
                     response.setHeader(HttpStatus.NOT_ACCEPTABLE.toString(), e.getMessage());
+                    response.setStatus(HttpStatus.FORBIDDEN.value());
 //                    response.sendError(HttpStatus.NOT_ACCEPTABLE.value());
                     Map<String, String> error = new HashMap<>();
                     error.put("error_message", e.getMessage());
