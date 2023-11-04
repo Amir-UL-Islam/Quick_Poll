@@ -1,4 +1,4 @@
-package org.amir.pollat.jwt_filters;
+package org.amir.pollat.jwtfilters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

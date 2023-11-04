@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Getter
-@Setter
-@ToString
+@Data
 public class ErrorDetails {
     private String title;
     private int status;

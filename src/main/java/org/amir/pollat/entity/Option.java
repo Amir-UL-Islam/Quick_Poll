@@ -4,12 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+@Data
 @Entity
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-@Setter
 public class Option {
     @Id
 //    Without Strategy.IDENTITY, The transaction won't Work

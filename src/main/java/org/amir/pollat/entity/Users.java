@@ -37,7 +37,7 @@ public class Users {
 
     @Column(name = "ROLE")
 //    @NotEmpty
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER) // Load all the roles when loading the user By Setting the fetch attribute to FetchType.EAGER
 //    @JoinTable(
 //            name = "USER_ROLES",
 //            joinColumns = @JoinColumn(name = "USER_ID"))

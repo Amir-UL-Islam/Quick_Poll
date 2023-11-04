@@ -5,11 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Data
 @Entity
 public class Vote {
     @Id
