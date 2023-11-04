@@ -1,8 +1,9 @@
 package org.amir.pollat.controller;
 
 import lombok.*;
-import org.amir.pollat.entity.Roles;
-import org.amir.pollat.entity.Users;
+import org.amir.pollat.model.dtos.RoleToUser;
+import org.amir.pollat.model.entity.Roles;
+import org.amir.pollat.model.entity.Users;
 import org.amir.pollat.repository.UsersRepository;
 import org.amir.pollat.services.UserServices;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/jwt/")
@@ -42,17 +42,8 @@ public class UserController {
     }
 
     @PostMapping("/set_role_to_user/")
-    public ResponseEntity<?> setRoleToUser(@RequestBody SetRoleToUser setRoleToUser){
-        userServices.add_role_to_user(setRoleToUser.getUsername(), setRoleToUser.getRole());
+    public ResponseEntity<?> setRoleToUser(@RequestBody RoleToUser roleToUser){
+        userServices.add_role_to_user(roleToUser.getUsername(), roleToUser.getRole());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
-}
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-class SetRoleToUser{
-    private String username;
-    private String role;
 }

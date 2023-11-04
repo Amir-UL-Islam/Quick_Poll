@@ -1,8 +1,8 @@
 package org.amir.pollat.security;
 
 import lombok.RequiredArgsConstructor;
-import org.amir.pollat.jwtfilters.CustomAuthorizationFilter;
-import org.amir.pollat.jwtfilters.CustomFilter;
+import org.amir.pollat.security.jwtfilters.CustomAuthorizationFilter;
+import org.amir.pollat.security.jwtfilters.CustomFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

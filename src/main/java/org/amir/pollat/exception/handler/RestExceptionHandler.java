@@ -1,8 +1,7 @@
-package org.amir.pollat.handler;
+package org.amir.pollat.exception.handler;
 
-import org.amir.pollat.error.ErrorDetails;
-import org.amir.pollat.error.ValidationError;
-import org.amir.pollat.exception.ResourceNotFoundException;
+import org.amir.pollat.exception.error.ErrorDetails;
+import org.amir.pollat.exception.error.ValidationError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

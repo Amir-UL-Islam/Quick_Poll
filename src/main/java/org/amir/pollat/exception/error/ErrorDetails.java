@@ -1,4 +1,4 @@
-package org.amir.pollat.error;
+package org.amir.pollat.exception.error;
 
 import lombok.*;
 

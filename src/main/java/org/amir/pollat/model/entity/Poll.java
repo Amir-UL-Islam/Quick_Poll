@@ -1,4 +1,4 @@
-package org.amir.pollat.entity;
+package org.amir.pollat.model.entity;
 
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;

@@ -1,6 +1,6 @@
 package org.amir.pollat.controller;
 
-import org.amir.pollat.entity.Vote;
+import org.amir.pollat.model.entity.Vote;
 import org.amir.pollat.repository.VoteRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

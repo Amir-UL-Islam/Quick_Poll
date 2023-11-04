@@ -1,10 +1,7 @@
-package org.amir.pollat.entity;
+package org.amir.pollat.model.entity;
 
-import jdk.jfr.BooleanFlag;
 import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import org.amir.pollat.entity.Roles;
 
 import java.util.ArrayList;
 import java.util.Collection;

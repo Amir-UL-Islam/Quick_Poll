@@ -1,8 +1,8 @@
 package org.amir.pollat.config;
 
 import lombok.RequiredArgsConstructor;
-import org.amir.pollat.entity.Roles;
-import org.amir.pollat.entity.Users;
+import org.amir.pollat.model.entity.Roles;
+import org.amir.pollat.model.entity.Users;
 import org.amir.pollat.services.UserServices;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

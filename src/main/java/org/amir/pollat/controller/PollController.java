@@ -2,7 +2,7 @@ package org.amir.pollat.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.amir.pollat.entity.Poll;
+import org.amir.pollat.model.entity.Poll;
 import org.amir.pollat.exception.ResourceNotFoundException;
 import org.amir.pollat.repository.PollRepository;
 import org.springframework.data.domain.Page;
