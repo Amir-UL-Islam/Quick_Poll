@@ -33,52 +33,55 @@ public class UserServices implements UserDetailsService {
     private final UsersRepository usersRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = usersRepository.findByUsername(username).get();
-        if (user == null) {
+        Optional<Users> user = usersRepository.findByUsername(username);
+        if (user.isEmpty()) {
             log.info("User not found");
             throw new UsernameNotFoundException("User not found");
-        }else {
+        } else {
             log.info("User found");
         }
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-        user.getRoles().forEach(roles -> authorities.add(new SimpleGrantedAuthority(roles.getName())));
+        user.get().getRoles().forEach(roles -> authorities.add(new SimpleGrantedAuthority(roles.getName())));
+        log.info("Authorities are: {}", authorities);
 
         return new User(
-                user.getUsername(),
-                user.getPassword(),
+                user.get().getUsername(),
+                user.get().getPassword(),
                 authorities
         );
     }
-    public Users save_user(Users user){
+
+    public Users saveUser(Users user) {
         log.info("Saving user to DB");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
         return user;
     }
 
-    public Roles save_role(Roles role){
+    public Roles saveRole(Roles role) {
         log.info("Saving role to DB");
         roleRepository.save(role);
         return role;
     }
 
-    public void add_role_to_user(String username, String role){
+    public void addRoleToUser(String username, String role) {
         log.info("Adding role to user");
         Users user = usersRepository.findByUsername(username).get();
         Optional<Roles> roles = roleRepository.findByName(role);
         user.getRoles().add(roles.get());
     }
 
-    public List<Users> get_all_user(){
+    public List<Users> getAllUser() {
         log.info("Getting user from DB");
         return usersRepository.findAll();
     }
 
-    public void reFreshToken(HttpServletRequest request, HttpServletResponse response){
+    public void reFreshToken(HttpServletRequest request, HttpServletResponse response) {
         String authHeader = request.getHeader(AUTHORIZATION);
     }
 }

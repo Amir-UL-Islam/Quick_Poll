@@ -25,7 +25,7 @@ public class ServiceConfig {
     CommandLineRunner run(UserServices userServices) {
         return args -> {
             // Adding Users
-            userServices.save_user(new Users(
+            userServices.saveUser(new Users(
                             null,
                             "Amir",
                             "Islam",
@@ -33,7 +33,7 @@ public class ServiceConfig {
                             new ArrayList<>()
                     )
             );
-            userServices.save_user(new Users(
+            userServices.saveUser(new Users(
                             null,
                             "Ibrahim",
                             "Hassan",
@@ -43,17 +43,17 @@ public class ServiceConfig {
             );
 
             // Adding all Available Roles
-            userServices.save_role(new Roles(
+            userServices.saveRole(new Roles(
                             null,
                             "ROLE_ADMIN"
                     )
             );
-            userServices.save_role(new Roles(
+            userServices.saveRole(new Roles(
                             null,
                             "ROLE_USER"
                     )
             );
-            userServices.save_role(new Roles(
+            userServices.saveRole(new Roles(
                             null,
                             "ROLE_MODERATOR"
                     )
@@ -61,9 +61,9 @@ public class ServiceConfig {
 
 
             // Adding Roles to Users
-            userServices.add_role_to_user("Amir", "ROLE_ADMIN");
-            userServices.add_role_to_user("Amir", "ROLE_MODERATOR");
-            userServices.add_role_to_user("Ibrahim", "ROLE_USER");
+            userServices.addRoleToUser("Amir", "ROLE_ADMIN");
+            userServices.addRoleToUser("Amir", "ROLE_MODERATOR");
+            userServices.addRoleToUser("Ibrahim", "ROLE_USER");
 
 
         };

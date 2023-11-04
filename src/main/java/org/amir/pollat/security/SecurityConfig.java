@@ -28,6 +28,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserDetailsService userDetailsService;
+
+    // Permit All These Paths
     protected String[] PERMIT_ALL= {
             "/api/users/jwt/save_new_user//**",
             "/swagger-ui/**",

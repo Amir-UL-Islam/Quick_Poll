@@ -26,7 +26,7 @@ public class UserController {
     @PostMapping("/save_new_user/")
     public ResponseEntity<?> Saving_The_New_User(@RequestBody Users user){
         URI location = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/api/users/jwt/save").toUriString());
-        userServices.save_user(user);
+        userServices.saveUser(user);
         return ResponseEntity.created(location).body(HttpStatus.CREATED);
 
     }
@@ -38,12 +38,12 @@ public class UserController {
 
     @PostMapping("/save_user_role/")
     public ResponseEntity<?> saveUserRole(@RequestBody Roles roles){
-        return ResponseEntity.ok().body(userServices.save_role(roles));
+        return ResponseEntity.ok().body(userServices.saveRole(roles));
     }
 
     @PostMapping("/set_role_to_user/")
     public ResponseEntity<?> setRoleToUser(@RequestBody RoleToUser roleToUser){
-        userServices.add_role_to_user(roleToUser.getUsername(), roleToUser.getRole());
+        userServices.addRoleToUser(roleToUser.getUsername(), roleToUser.getRole());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

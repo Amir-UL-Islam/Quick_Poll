@@ -31,7 +31,6 @@ public class PollController {
     public Poll verifyPoll(Long pollId) throws ResourceNotFoundException{
         Optional<Poll> poll = pollRepository.findById(pollId);
         if(!poll.isPresent()) {
-//            throw new IllegalAccessException("Poll by the ID: " + pollId + " dose not Exist in DB");
             throw new ResourceNotFoundException("Poll by the ID: " + pollId + " dose not Exist in DB");
         }
         return poll.get();
