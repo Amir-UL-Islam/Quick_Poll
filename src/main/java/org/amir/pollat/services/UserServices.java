@@ -83,6 +83,10 @@ public class UserServices implements UserDetailsService {
         return usersRepository.findAll();
     }
 
+    public Users findByUsername(String username) {
+        return usersRepository.findByUsername(username).get();
+    }
+
     public void reFreshToken(HttpServletRequest request, HttpServletResponse response) {
         String authHeader = request.getHeader(AUTHORIZATION);
     }

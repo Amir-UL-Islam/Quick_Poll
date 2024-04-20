@@ -29,7 +29,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/api/login")) { // We are not going do Anything as The user is trying to login/authenticate[or Proving him/her selves as valid user or he/she already a valid user]
+        if (request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/user/refresh-token")) { // We are not going do Anything as The user is trying to login/authenticate[or Proving him/her selves as valid user or he/she already a valid user]
             filterChain.doFilter(request, response); // Calling the Next Filter
         } else {
             String authHeader = request.getHeader(AUTHORIZATION);

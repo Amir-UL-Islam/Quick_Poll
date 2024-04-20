@@ -53,7 +53,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 //                .withSubject(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).toString())
                 .withSubject(user.toString())
 //                 Token Time
-                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) // For 2 minutes
+                .withExpiresAt(new Date(System.currentTimeMillis() + 3 * 60 * 1000)) // For 2 minutes
 
                 .withIssuer(request.getRequestURL().toString())
 
@@ -69,7 +69,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withSubject(user.toString())
 
 //                 Token Time
-                .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 1000)) // For 5 minutes
+                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) // For 5 minutes
                 .withIssuer(request.getRequestURL().toString())
 
 //                // Setting the Claims and Authorities

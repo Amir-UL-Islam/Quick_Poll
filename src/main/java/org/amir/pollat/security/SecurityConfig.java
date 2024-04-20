@@ -38,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/v3/api-docs/**",
             "/webjars/**",
             "/api/user/create/**",
-            "/api/login/**"
+            "/api/login/**",
+            "/api/user/refresh-token/**"
     };
 
     // AUTHENTICATION
