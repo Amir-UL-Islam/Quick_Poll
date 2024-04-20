@@ -1,6 +1,7 @@
 package org.amir.pollat.model.entity;
 
 import lombok.*;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -25,16 +26,17 @@ public class Users {
 //    @NotEmpty
     private String username;
 
-//    @NotEmpty
+    //    @NotEmpty
     @Column(name = "LAST_NAME")
     private String lastname;
-//    @NotEmpty
+    //    @NotEmpty
     @Column(name = "PASSWORD")
     private String password;
 
     @Column(name = "ROLE")
 //    @NotEmpty
-    @ManyToMany(fetch = FetchType.EAGER) // Load all the roles when loading the user By Setting the fetch attribute to FetchType.EAGER
+    @ManyToMany(fetch = FetchType.EAGER)
+    // Load all the roles when loading the user By Setting the fetch attribute to FetchType.EAGER
 //    @JoinTable(
 //            name = "USER_ROLES",
 //            joinColumns = @JoinColumn(name = "USER_ID"))

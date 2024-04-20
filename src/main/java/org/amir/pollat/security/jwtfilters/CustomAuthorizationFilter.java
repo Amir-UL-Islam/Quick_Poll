@@ -29,21 +29,22 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/login")) {
-            filterChain.doFilter(request, response);
-
-        }else {
+        if (request.getServletPath().equals("/api/login")) { // We are not going do Anything as The user is trying to login/authenticate[or Proving him/her selves as valid user or he/she already a valid user]
+            filterChain.doFilter(request, response); // Calling the Next Filter
+        } else {
             String authHeader = request.getHeader(AUTHORIZATION);
-            if(authHeader != null && authHeader.startsWith("Valid ")){
+            if (authHeader != null && authHeader.startsWith("Valid ")) { // startWith "Bearer"
                 try {
                     String token = authHeader.substring("Valid ".length());
 
-                    Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                    Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); // Same Secret Key as in CustomAuthenticationFilter for Signing the Token
                     System.out.println(algorithm);
 
+                    // Verify the Token
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     System.out.println(verifier);
 
+                    // Decode the Token
                     DecodedJWT decodedJWT = verifier.verify(token);
                     System.out.println(decodedJWT);
 
@@ -55,21 +56,22 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
                     Collection<SimpleGrantedAuthority> sga = new ArrayList<>();
 
-                    stream(roles).forEach(role -> {
-                        sga.add(new SimpleGrantedAuthority(role));
-                    });
+                    stream(roles).forEach(role -> sga.add(new SimpleGrantedAuthority(role)));
 
                     // Set the Authentication
                     // Here we are setting the Authentication
                     // Telling the Spring Security that this is the Authentication Credentials
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, sga);
+
+                    // The Spring Magic Starts Here
+                    // Depending on the Authentication, Spring Security will decide whether to allow the user to access the resource or not
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
                     // Go for the Next Filter
                     filterChain.doFilter(request, response);
 
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
                     log.error("Error logging in: {}", e.getMessage());
                     response.setHeader(HttpStatus.NOT_ACCEPTABLE.toString(), e.getMessage());
@@ -82,7 +84,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
                 }
 
-            }else {
+            } else {
                 filterChain.doFilter(request, response);
             }
         }

@@ -34,6 +34,9 @@ public class UserServices implements UserDetailsService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // UserDetailsService is an interface that can be implemented to provide the loadUserByUsername method
+    // This method is used by Spring Security to load the user from the database
+    // And Will for Authentication
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Users> user = usersRepository.findByUsername(username);
@@ -56,11 +59,10 @@ public class UserServices implements UserDetailsService {
         );
     }
 
-    public Users saveUser(Users user) {
+    public void saveUser(Users user) {
         log.info("Saving user to DB");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
-        return user;
     }
 
     public Roles saveRole(Roles role) {

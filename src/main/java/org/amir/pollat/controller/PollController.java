@@ -21,16 +21,15 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-@Api(value = "polls", description = "Poll API")
-@RequestMapping("/api/v1/")
+@RequestMapping("/api")
 public class PollController {
     @Inject
     private PollRepository pollRepository;
 
-//    Verifying Poll by ID
-    public Poll verifyPoll(Long pollId) throws ResourceNotFoundException{
+    //    Verifying Poll by ID
+    public Poll verifyPoll(Long pollId) throws ResourceNotFoundException {
         Optional<Poll> poll = pollRepository.findById(pollId);
-        if(!poll.isPresent()) {
+        if (poll.isEmpty()) {
             throw new ResourceNotFoundException("Poll by the ID: " + pollId + " dose not Exist in DB");
         }
         return poll.get();
@@ -44,9 +43,9 @@ public class PollController {
     }
 
     // Creating Poll Resource
-    @ApiOperation(value = "Creates a new Poll", notes="The newly created poll Id will be sent in the location response header", response = Void.class)
-    @PostMapping("/polls")
-    public ResponseEntity<?> createPoll(@Valid @RequestBody  Poll poll) {
+    @ApiOperation(value = "Creates a new Poll", notes = "The newly created poll Id will be sent in the location response header", response = Void.class)
+    @PostMapping("/polls/create")
+    public ResponseEntity<?> createPoll(@Valid @RequestBody Poll poll) {
 //        Poll poll = new Poll();
 //        Don't Need this line as The @RequestBody annotation maps the HttpRequest body to a transfer or domain object, enabling automatic deserialization of the inbound HttpRequest body onto a Java object.
 //        poll.setQuestion("What is your favorite color?");
@@ -63,7 +62,6 @@ public class PollController {
         httpHeaders.setLocation(newPollUri);
 
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
-//        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 
@@ -78,7 +76,6 @@ public class PollController {
     @ApiOperation(value = "Updating a Poll associated with the pollId", response = Poll.class)
     @PutMapping("/polls/{pollId}")
     public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
-
         verifyPoll(pollId);
         // Save the entity
         Poll newPoll = pollRepository.save(poll);
@@ -89,12 +86,11 @@ public class PollController {
     // Delete a Poll
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "Deleting a Poll associated with the pollId", response = Poll.class)
-    @RequestMapping(value = "/polls/{pollId}" , method = RequestMethod.DELETE)
+    @DeleteMapping("/polls/{pollId}")
     public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
 //        The method deleteById will throw an EmptyResultDataAccessException if the supplied id does not exist, whereas the method delete will silently return if the supplied entity hasn't been persisted yet, or for whatever reason it cannot be found by the EntityManager.
-
 //        pollRepository.deleteById(pollId);
         pollRepository.delete(verifyPoll(pollId));
-        return new ResponseEntity<>(verifyPoll(pollId),HttpStatus.GONE);
+        return new ResponseEntity<>(verifyPoll(pollId), HttpStatus.GONE);
     }
 }

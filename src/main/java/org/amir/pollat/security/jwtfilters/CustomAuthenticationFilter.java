@@ -24,39 +24,46 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-public class CustomFilter  extends UsernamePasswordAuthenticationFilter {
+public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
+    //   Authentication is Here
+    //   This method is called when the user tries to authenticate
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         log.info("Inside attemptAuthentication");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        log.info("Username is: {} & Password is : {}" ,username ,password);
-//        Login/Authentication is Here
+        log.info("Username is: {} & Password is : {}", username, password);
+        //        Login/Authentication is Here
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         return authenticationManager.authenticate(authenticationToken);
     }
 
-//    Access Token Refresh Token
+    //    Access Token Refresh Token
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         User user = (User) authResult.getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-        String access_token = JWT.create()
+
+        // Creating New Access Token
+        String accessToken = JWT.create()
 
 //                Creating Token with
 //                .withSubject(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).toString())
-
                 .withSubject(user.toString())
 //                 Token Time
-                .withExpiresAt(new Date(System.currentTimeMillis() + 2 * 60 * 1000)) // For 2 minutes
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) // For 2 minutes
+
                 .withIssuer(request.getRequestURL().toString())
 
                 // Setting the Claims and Authorities
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
-        String refresh_token = JWT.create()
+
+
+        // Refresh Token
+        String refreshToken = JWT.create()
 
 //                Creating Token with
                 .withSubject(user.toString())
@@ -70,8 +77,8 @@ public class CustomFilter  extends UsernamePasswordAuthenticationFilter {
                 .sign(algorithm);
 
 //        In the Header
-        response.setHeader("access_token", access_token);
-        response.setHeader("refresh_token", refresh_token);
+        response.setHeader("access_token", accessToken);
+        response.setHeader("refresh_token", refreshToken);
 
 
 //        Let's say we want our token to be in the body
@@ -83,21 +90,19 @@ public class CustomFilter  extends UsernamePasswordAuthenticationFilter {
 
 //        Way 02
         HashMap<String, String> tokens = new HashMap<>();
-        HashMap<String, String> tokens_decode = new HashMap<>();
-        tokens.put("access_token", access_token);
-        tokens.put("access_token_decode", JWT.decode(access_token).getSubject());
+        tokens.put("access_token", accessToken);
+        tokens.put("access_token_decode", JWT.decode(accessToken).getSubject());
 
-        tokens_decode.put("refresh_token", refresh_token);
-        tokens_decode.put("refresh_token_decode", JWT.decode(refresh_token).getSubject());
+        tokens.put("refresh_token", refreshToken);
+        tokens.put("refresh_token_decode", JWT.decode(refreshToken).getSubject());
 
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-//        new ObjectMapper().writeValue(response.getOutputStream(), tokens_decode);
 
 //        Also we want to put the tokens into the cookies'
 //        response.addHeader("Set-Cookie", "access_token=" + access_token + "; HttpOnly; Path=/; Max-Age=120");
 //        response.addHeader("Set-Cookie", "refresh_token=" + refresh_token + "; HttpOnly; Path=/; Max-Age=300");
-
 
 
     }

@@ -14,35 +14,35 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/users/jwt/")
+@RequestMapping("/api/user")
 //@RequiredArgsConstructor
 @AllArgsConstructor
 public class UserController {
     private UserServices userServices;
-    private  UsersRepository usersRepository;
+    private UsersRepository usersRepository;
 
     //     For Everyone (new user)
 //     Saving the user to DB
-    @PostMapping("/save_new_user/")
-    public ResponseEntity<?> Saving_The_New_User(@RequestBody Users user){
-        URI location = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/api/users/jwt/save").toUriString());
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody Users user) {
+        URI location = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/api/user/create").toUriString());
         userServices.saveUser(user);
         return ResponseEntity.created(location).body(HttpStatus.CREATED);
 
     }
 
-    @GetMapping("/get_all_user/")
-    public ResponseEntity<?> getAllUser(){
+    @GetMapping("/get-all")
+    public ResponseEntity<?> getAllUser() {
         return ResponseEntity.ok().body(usersRepository.findAll());
     }
 
-    @PostMapping("/save_user_role/")
-    public ResponseEntity<?> saveUserRole(@RequestBody Roles roles){
-        return ResponseEntity.ok().body(userServices.saveRole(roles));
+    @PostMapping("/add-role")
+    public ResponseEntity<?> saveUserRole(@RequestBody Roles role) {
+        return ResponseEntity.ok().body(userServices.saveRole(role));
     }
 
-    @PostMapping("/set_role_to_user/")
-    public ResponseEntity<?> setRoleToUser(@RequestBody RoleToUser roleToUser){
+    @PostMapping("/set-user-role/")
+    public ResponseEntity<?> setRoleToUser(@RequestBody RoleToUser roleToUser) {
         userServices.addRoleToUser(roleToUser.getUsername(), roleToUser.getRole());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

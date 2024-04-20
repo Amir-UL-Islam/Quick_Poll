@@ -2,7 +2,7 @@ package org.amir.pollat.security;
 
 import lombok.RequiredArgsConstructor;
 import org.amir.pollat.security.jwtfilters.CustomAuthorizationFilter;
-import org.amir.pollat.security.jwtfilters.CustomFilter;
+import org.amir.pollat.security.jwtfilters.CustomAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,22 +30,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
     // Permit All These Paths
-    protected String[] PERMIT_ALL= {
-            "/api/users/jwt/save_new_user//**",
+    protected String[] PERMIT_ALL = {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/api-docs/**",
             "/v2/api-docs/**",
             "/v3/api-docs/**",
-            "/webjars/**"
+            "/webjars/**",
+            "/api/user/create/**",
+            "/api/login/**"
     };
 
     // AUTHENTICATION
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // another way of Password Encoding
+        // loadUserByUsername() method is called by Spring Security to load the user from the database
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
+
     @Bean
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -56,32 +59,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // AUTHORIZATION STEPS
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomFilter customFilter = new CustomFilter(authenticationManagerBean());
-        customFilter.setFilterProcessesUrl("/api/v1/login");
+        // Custom Authentication Filter
+        // Setting Default URL for Authentication which was /login form UsernamePasswordAuthenticationFilter class
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
+
 //        super.configure(http);
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(PERMIT_ALL).permitAll()
-                .antMatchers("/api/v1/login/").permitAll()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/v1/user/jwt/**").hasAnyAuthority("ROLE_ADMIN")
 
-//                .anyRequest().permitAll()
+                .and()
+                .authorizeRequests().antMatchers(PERMIT_ALL).permitAll()
+
+                .and()
+                .authorizeRequests()
+
+                // Dealing with ROLE_BASED AUTHORIZATION
                 // As I have already Implemented @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MODERATOR')")
-//                .antMatchers("/api/polls/**").hasRole("ADMIN")
-//                .antMatchers("/api/polls/{pollId}/votes/").hasRole("USER")
-//                .antMatchers("/api/users/**").authenticated()
+                .antMatchers("/api/admin-only/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/polls/create/**").hasRole("ADMIN")
+                .antMatchers("/api/polls/{pollId}/votes").hasRole("USER")
+
+                //And Now Forcing any User to be Authenticated
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
+
+                // Adding Custom Filters for Authentication and Authorization
+                // Don't Need this Filter as I have already added the CustomAuthenticationFilter And Added Custom URL
+//                .addFilter(new CustomAuthenticationFilter(authenticationManager()))
                 .and()
-                .addFilter(new CustomFilter(authenticationManager()))
+                .addFilter(customAuthenticationFilter)
+                // Starting Authorization Filter
+                // We need Make Sure this Filter is Added Before UsernamePasswordAuthenticationFilter
+                // As/if The User have token he/she does not need to login again or Authenticate again
                 .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-
     }
 }
 
