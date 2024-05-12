@@ -34,14 +34,11 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
 @RequestMapping("/api/user")
-//@RequiredArgsConstructor
 @AllArgsConstructor
 public class UserController {
     private UserServices userServices;
     private UsersRepository usersRepository;
 
-    //     For Everyone (new user)
-//     Saving the user to DB
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody Users user) {
         URI location = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/api/user/create").toUriString());
@@ -68,54 +65,6 @@ public class UserController {
 
     @GetMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String authHeader = request.getHeader(AUTHORIZATION);
-        if (authHeader != null && authHeader.startsWith("Valid ")) { // startWith "Bearer"
-            try {
-                String refreshToken = authHeader.substring("Valid ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); // Same Secret Key as in CustomAuthenticationFilter for Signing the Token
-                JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refreshToken);
-                String username = decodedJWT.getSubject();
-                Users user = userServices.findByUsername(username);
-
-
-                // Creating New Access Token
-                String accessToken = JWT.create()
-                        .withSubject(user.toString())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 3 * 60 * 1000)) // For 2 minutes
-
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getRoles().stream().map(Roles::getName).collect(Collectors.toList()))
-                        .sign(algorithm);
-                response.setHeader("access_token", accessToken);
-                response.setHeader("refresh_token", refreshToken);
-
-
-                // Setting the Tokens in the Body
-                HashMap<String, String> tokens = new HashMap<>();
-                tokens.put("access_token", accessToken);
-                tokens.put("access_token_decode", JWT.decode(accessToken).getSubject());
-
-                tokens.put("refresh_token", refreshToken);
-                tokens.put("refresh_token_decode", JWT.decode(refreshToken).getSubject());
-
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-
-            } catch (Exception e) {
-
-                response.setHeader(HttpStatus.NOT_ACCEPTABLE.toString(), e.getMessage());
-                response.setStatus(HttpStatus.FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("error_message", e.getMessage());
-                response.setContentType("application/json");
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
-
-            }
-
-        } else {
-            throw new RuntimeException("Refresh Token Not Found");
-        }
+        userServices.reFreshToken(request, response);
     }
 }

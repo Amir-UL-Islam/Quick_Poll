@@ -45,7 +45,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     System.out.println(verifier);
 
                     // Decode the Token
-                    DecodedJWT decodedJWT = verifier.verify(token);
+                    DecodedJWT decodedJWT = verifier.verify(token); // also checking if the token is valid for Time
                     System.out.println(decodedJWT);
 
                     // Verify the Token of The Valid User
